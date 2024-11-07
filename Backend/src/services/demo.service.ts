@@ -11,6 +11,6 @@ export const getCatFact = async () => {
         return response?.data;
     } catch (err) {
         console.log('Error in demoService.getCatFact service', err);
-        return { status: false, message: 'Error in service' };
+        throw err;
     }
 };
