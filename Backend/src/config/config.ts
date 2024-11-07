@@ -3,8 +3,11 @@ import path from 'path';
 import { auth0ConfigType, mongodbConfigType } from '../types/config.types';
 
 dotenv?.config();
-const envFilePath = path.resolve(process.cwd(), `.env.${process.env.NODE_ENV || 'local'}`);
-dotenv?.config({ path: envFilePath });
+
+if (!['Production', 'QA', 'Development']?.includes(process?.env?.NODE_ENV || '')) {
+    const envFilePath = path.resolve(process.cwd(), `.env.${process.env.NODE_ENV || 'local'}`);
+    dotenv?.config({ path: envFilePath });
+}
 
 export const config = {
     url: 'https://catfact.ninja',
