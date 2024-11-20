@@ -1,7 +1,7 @@
 import { MongoClient } from 'mongodb';
 import { MONGODB_CONFIG } from './config.js';
 
-const client = new MongoClient(MONGODB_CONFIG?.connectionString);
+const client = new MongoClient(MONGODB_CONFIG?.connectionString, { maxPoolSize: 10, minPoolSize: 2, serverSelectionTimeoutMS: 5000 });
 
 export const connectDB = async () => {
     try {
@@ -29,8 +29,8 @@ export const getDatabase = async () => {
     return client.db(MONGODB_CONFIG?.database);
 };
 
-// try {
-//     await connectDB();
-// } catch (err) {
-//     console.log('Error in connecting mongodb', err);
-// }
+try {
+    await connectDB();
+} catch (err) {
+    console.log('Error in connecting mongodb', err);
+}
