@@ -3,6 +3,7 @@ import { testDBConnection } from '../config/dbConnection.js';
 import { demoCatFactController } from '../controllers/demo.controller.js';
 import { getAccessToken } from '../services/auth0.service.js';
 import { findOne } from '../services/mongodb.service.js';
+import { authMiddleware } from '../middlewares/auth.js';
 
 const router = Router();
 
@@ -14,6 +15,8 @@ const router = Router();
 //         next(err);
 //     }
 // });
+router.use(authMiddleware());
+
 router.get('/catFact', demoCatFactController);
 
 router.get('/getAuth0AccessToken', async (req: Request, res: Response, next: NextFunction) => {
@@ -28,7 +31,7 @@ router.get('/getAuth0AccessToken', async (req: Request, res: Response, next: Nex
 router.get('/testDBConnection', async (req: Request, res: Response, next: NextFunction) => {
     try {
         await testDBConnection();
-        const response = await findOne('Users', { _id: 1 });
+        const response = await findOne('User', { _id: 1 });
         res.status(200).json(response);
     } catch (err) {
         next(err);
