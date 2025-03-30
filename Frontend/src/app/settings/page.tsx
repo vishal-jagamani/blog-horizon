@@ -2,11 +2,11 @@ import Settings from '@/components/settings/Settings';
 import React from 'react';
 
 interface PageProps {
-    params: { settingsType: string };
+    params: Promise<{ settingsType: string }>;
 }
 
 const Page = async ({ params }: PageProps) => {
-    const { settingsType } = params;
+    const { settingsType } = await params;
     return (
         <>
             <Settings settingsType={settingsType || 'profile'} />
