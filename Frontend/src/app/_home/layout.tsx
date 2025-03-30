@@ -12,7 +12,7 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
     const { isMobile } = useScreenSize();
 
     useEffect(() => {
-        updateUserDetails(user);
+        updateUserDetails(user ?? null);
     }, [user, updateUserDetails]);
 
     return (

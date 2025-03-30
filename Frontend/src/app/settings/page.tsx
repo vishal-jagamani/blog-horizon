@@ -9,7 +9,7 @@ const Page = async ({ params }: PageProps) => {
     const { settingsType } = params;
     return (
         <>
-            <Settings settingsType={settingsType} />
+            <Settings settingsType={settingsType || 'profile'} />
         </>
     );
 };

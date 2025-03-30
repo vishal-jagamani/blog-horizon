@@ -1,6 +1,8 @@
 import Settings from '@/components/settings/Settings';
 
-export default async function Page({ params }: { params: Promise<{ settingsType: string }> }) {
+const Page = async ({ params }: { params: { settingsType: string } }) => {
     const { settingsType } = await params;
     return <Settings settingsType={settingsType} />;
-}
+};
+
+export default Page;
