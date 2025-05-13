@@ -66,11 +66,17 @@ const NavBar: React.FC = () => {
                         <p className="block text-xl font-bold sm:hidden">Blog Horizon</p>
                     </div>
                     <div className="flex space-x-4 sm:space-x-6">
+                        <Link href="/new">
+                            <p className="hover:bg-primary text-primary border-primary rounded-md border-[1px] px-4 py-1 font-semibold hover:text-white">
+                                New Post
+                            </p>
+                        </Link>
                         <GoBell className="self-center text-2xl hover:cursor-pointer" size={26} />
                         <Popover open={open} onOpenChange={setOpen}>
                             <PopoverTrigger asChild>
                                 <Avatar className="self-center hover:cursor-pointer" onClick={() => setOpen(!open)}>
                                     <AvatarImage
+                                        loading="lazy"
                                         src="https://avatars.githubusercontent.com/u/93400369?s=400&u=4e03d23a5a20c3b79155d1dc7682525532c24797&v=4"
                                         alt="@vishaljagamani"
                                     />

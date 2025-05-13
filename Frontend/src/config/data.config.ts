@@ -17,5 +17,5 @@ export const settingsOptions: settingsOptionType[] = [
     { id: 3, title: 'Notifications', link: '/settings/notifications' },
     { id: 4, title: 'Account', link: '/settings/account' },
     { id: 5, title: 'Organization', link: '/settings/organization' },
-    { id: 6, title: 'Extensions', link: '/settings/extensions' },
+    // { id: 6, title: 'Extensions', link: '/settings/extensions' },
 ];

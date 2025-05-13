@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import './globals.css';
-import { Providers } from './providers';
+import '../globals.css';
+import { Providers } from '../providers';
 import NavBar from '@/components/home/NavBar';
 import { Separator } from '@/components/ui/separator';
 

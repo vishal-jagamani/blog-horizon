@@ -5,7 +5,7 @@ interface PageProps {
     params: Promise<{ settingsType: string }>;
 }
 
-const Page = async ({ params }: PageProps) => {
+const Page: React.FC<PageProps> = async ({ params }) => {
     const { settingsType } = await params;
     return (
         <>
