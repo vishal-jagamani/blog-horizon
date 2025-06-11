@@ -2,6 +2,7 @@ package com.bloghorizon.backend.controllers;
 
 import com.bloghorizon.backend.dtos.UserResponse;
 import com.bloghorizon.backend.dtos.UserSignupRequest;
+import com.bloghorizon.backend.response.ApiResponse;
 import com.bloghorizon.backend.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<UserResponse> signup(@Valid @RequestBody UserSignupRequest request) {
-        return ResponseEntity.ok(service.registerUser(request));
+    public ResponseEntity<?> signup(@Valid @RequestBody UserSignupRequest request) {
+        return service.registerUser(request);
     }
 }

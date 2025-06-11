@@ -12,7 +12,6 @@ public class UserSignupRequest {
     @Email(message = "Email should be valid")
     private String email;
 
-    // Getters and setters
     public String getUsername() {
         return username;
     }
