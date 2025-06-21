@@ -24,7 +24,7 @@ const Settings: React.FC<{ settingsType: string }> = ({ settingsType }) => {
     }
     return (
         <>
-            <div className="bg-background flex w-full flex-col border-[1px]">
+            <div className="mt-6 flex w-[80%] flex-col">
                 <Component />
             </div>
         </>

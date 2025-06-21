@@ -1,8 +1,8 @@
 'use client';
 
-import HomePage from '@/app/_home/page';
+import HomePage from '@/app/(main)/_home/page';
 
-const Home = () => {
+const Home: React.FC = () => {
     return (
         <>
             <HomePage />

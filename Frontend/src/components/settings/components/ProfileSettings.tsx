@@ -21,19 +21,42 @@ const ProfileSettings: React.FC = () => {
 
     return (
         <>
-            <div className="flex w-full flex-col">
-                <div className="flex w-full flex-col">
-                    <p>User</p>
-                    <form onSubmit={handleSubmit(handleUserSettingsOnSubmit)} className="flex flex-col">
-                        <Input placeholder="Name" {...register('name')} />
-                        {errors.name && <span>{errors.name.message}</span>}
-                        <Input placeholder="Email" {...register('email')} />
-                        {errors.email && <span>{errors.email.message}</span>}
-                        <Input placeholder="Username" {...register('username')} />
-                        {errors.username && <span>{errors.username.message}</span>}
-                        <Button type="submit">Submit</Button>
-                    </form>
-                </div>
+            <div className="flex w-full flex-col space-y-8">
+                <form onSubmit={handleSubmit(handleUserSettingsOnSubmit)}>
+                    <div className="bg-background flex w-full flex-col space-y-6 rounded-md p-4">
+                        <p className="text-2xl font-semibold">User</p>
+                        <div className="space-y-1">
+                            <p className="text-lg font-semibold">Name</p>
+                            <Input placeholder="Name" {...register('name')} />
+                            {errors.name && <span className="absolute">{errors.name.message}</span>}
+                        </div>
+                        <div className="space-y-1">
+                            <p className="text-lg font-semibold">Email</p>
+                            <Input placeholder="Email" {...register('email')} />
+                            {errors.email && <span className="absolute">{errors.email.message}</span>}
+                        </div>
+                        <div className="space-y-1">
+                            <p className="text-lg font-semibold">Username</p>
+                            <Input placeholder="Username" {...register('username')} />
+                            {errors.username && <span className="absolute">{errors.username.message}</span>}
+                        </div>
+                        <div className="space-y-1">
+                            <label htmlFor="picture" className="text-lg font-semibold">
+                                Profile Image
+                            </label>
+                            <Input id="picture" type="file" {...register('profileImage')} />
+                        </div>
+                    </div>
+                    <div className="bg-background mt-6 flex w-full flex-col space-y-6 rounded-md p-4">
+                        <p className="text-2xl font-semibold">Basic</p>
+                        <div className="space-y-1">
+                            <p className="text-lg font-semibold">Website URL</p>
+                            <Input placeholder="Website URL" {...register('websiteUrl')} />
+                            {errors.websiteUrl && <span>{errors.websiteUrl.message}</span>}
+                        </div>
+                    </div>
+                    <Button type="submit">Submit</Button>
+                </form>
             </div>
         </>
     );

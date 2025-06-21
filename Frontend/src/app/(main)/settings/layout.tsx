@@ -4,7 +4,7 @@ import React from 'react';
 
 const SettingsLayout = ({ children }: { children: React.ReactNode }) => {
     return (
-        <div className="px-20 my-10 flex w-full space-y-6">
+        <div className="my-10 flex w-full space-y-6 px-20">
             <div className="flex flex-col">
                 {settingsOptions?.map((item) => {
                     return (

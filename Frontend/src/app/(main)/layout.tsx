@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import './globals.css';
-import { Providers } from './providers';
+import '../globals.css';
+import { Providers } from '../providers';
 import NavBar from '@/components/home/NavBar';
 import { Separator } from '@/components/ui/separator';
+import MainLayout from './_home/layout';
 
 const inter = Inter({ variable: '--font-inter', subsets: ['latin'], display: 'swap' });
 
@@ -32,12 +33,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     return (
         <html lang="en" suppressHydrationWarning>
             <head />
-            <body className={`${inter.variable} flex w-screen bg-white antialiased dark:bg-black`}>
-                <div className="flex w-screen flex-col">
+            <body className={`${inter.variable} flex h-screen w-screen bg-white antialiased dark:bg-black`}>
+                <div className="flex h-screen w-screen flex-col">
                     <Providers>
                         <NavBar />
                         <Separator className="mb-[100px] sm:mb-14" />
-                        {children}
+                        <MainLayout>{children}</MainLayout>
                     </Providers>
                 </div>
             </body>

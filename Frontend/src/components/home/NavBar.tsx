@@ -2,15 +2,15 @@
 
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { profileMenuOptions } from '@/config/config';
+import useScreenSize from '@/utils/hof/useScreenSize';
 import { PopoverTrigger } from '@radix-ui/react-popover';
+import { Menu } from 'lucide-react';
 import Link from 'next/link';
 import React, { useRef, useState } from 'react';
 import { GoBell } from 'react-icons/go';
 import { Input } from '../ui/input';
 import { Popover, PopoverContent } from '../ui/popover';
 import { Separator } from '../ui/separator';
-import useScreenSize from '@/utils/hof/useScreenSize';
-import { Menu } from 'lucide-react';
 import { Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '../ui/sheet';
 import LeftNavigation from './LeftNavigation';
 
@@ -27,7 +27,7 @@ const NavBar: React.FC = () => {
 
     return (
         <>
-            <div className="bg-background fixed flex h-auto w-screen flex-col-reverse flex-wrap items-center justify-between border-b-[1px] border-gray-300 px-4 py-3 sm:h-14 sm:flex-row sm:px-20">
+            <div className="bg-background fixed z-10 flex h-auto w-screen flex-col-reverse flex-wrap items-center justify-between border-b-[1px] border-gray-300 px-4 py-3 sm:h-14 sm:flex-row sm:px-20">
                 <div className="flex w-full items-center justify-start sm:mb-0 sm:w-auto sm:space-x-4">
                     <Link href="/">
                         <p className="text-primary hidden text-xl font-bold text-nowrap hover:cursor-pointer sm:block">Blog Horizon</p>
@@ -63,14 +63,20 @@ const NavBar: React.FC = () => {
                                 </Sheet>
                             </>
                         )}
-                        <p className="block text-xl font-bold sm:hidden">Blog Horizon</p>
+                        <p className="block text-lg font-bold sm:hidden">Blog Horizon</p>
                     </div>
                     <div className="flex space-x-4 sm:space-x-6">
+                        <Link href="/new">
+                            <p className="hover:bg-primary text-md text-primary border-primary rounded-md border-[1px] px-4 py-1 font-semibold hover:text-white">
+                                New Post
+                            </p>
+                        </Link>
                         <GoBell className="self-center text-2xl hover:cursor-pointer" size={26} />
                         <Popover open={open} onOpenChange={setOpen}>
                             <PopoverTrigger asChild>
                                 <Avatar className="self-center hover:cursor-pointer" onClick={() => setOpen(!open)}>
                                     <AvatarImage
+                                        loading="lazy"
                                         src="https://avatars.githubusercontent.com/u/93400369?s=400&u=4e03d23a5a20c3b79155d1dc7682525532c24797&v=4"
                                         alt="@vishaljagamani"
                                     />
@@ -93,7 +99,7 @@ const NavBar: React.FC = () => {
                                         );
                                     })}
                                     <Separator className="my-2" />
-                                    <Link href="/api/auth/logout" onClick={() => setOpen(false)}>
+                                    <Link href="/auth/logout" onClick={() => setOpen(false)}>
                                         <p className="rounded-sm px-4 py-2 hover:cursor-pointer hover:bg-gray-200 dark:hover:bg-[#272729]">Logout</p>
                                     </Link>
                                 </div>

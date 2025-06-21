@@ -1,9 +1,9 @@
-import { UserProfile } from '@auth0/nextjs-auth0/client';
+import { User } from '@auth0/nextjs-auth0/types';
 import { create } from 'zustand';
 
 type UserDetails = {
-    userDetails: UserProfile | null;
-    updateUserDetails: (userDetails: UserProfile | null) => void;
+    userDetails: User | null;
+    updateUserDetails: (userDetails: User | null) => void;
 };
 
 export const userStore = create<UserDetails>((set) => ({

@@ -56,10 +56,10 @@
   --popover: #181818;
   --popover-foreground: #F2F2F2;
 
-  --primary: #5CB8E4;
+  --primary: #8758FF;
   --primary-foreground: #181818;
 
-  --secondary: #8758FF;
+  --secondary: #5CB8E4;
   --secondary-foreground: #F2F2F2;
 
   --muted: #8758FF;
@@ -101,10 +101,10 @@
   --popover: oklch(0.205 0 0);
   --popover-foreground: #F2F2F2;
 
-  --primary: #068FFF;
+  --primary: #8758FF;
   --primary-foreground: #181818;
 
-  --secondary: #8758FF;
+  --secondary: #068FFF;
   --secondary-foreground: #F2F2F2;
 
   --muted: #8758FF;
@@ -168,4 +168,26 @@
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+}
+
+/* Force ul bullets to show inside markdown preview */
+.markdown-preview ul {
+  list-style-type: disc !important;
+  padding-left: 1.5rem !important;
+}
+
+.markdown-preview ol {
+  list-style-type: decimal !important;
+  padding-left: 1.5rem !important;
+}
+
+.markdown-preview li {
+  margin: 0.25rem 0;
+}
+
+html,
+body {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }

@@ -1,14 +1,16 @@
 import { leftNavigationOptionType, settingsOptionType } from '@/types/data.config.types';
 
+import { BookMarked, FileText, House, Info, Lightbulb, LockKeyhole, Mail, Tag } from 'lucide-react';
+
 export const leftNavigationOptions: leftNavigationOptionType[] = [
-    { id: 1, title: 'Home', link: '/' },
-    { id: 2, title: 'Reading List', link: '/reading-list' },
-    { id: 3, title: 'Tags', link: '/tags' },
-    { id: 4, title: 'Help', link: '/help' },
-    { id: 5, title: 'About', link: '/about' },
-    { id: 6, title: 'Contact', link: '/contact' },
-    { id: 7, title: 'Privacy Policy', link: '/privacy-policy' },
-    { id: 8, title: 'Terms of use', link: '/terms-of-use' },
+    { id: 1, title: 'Home', link: '/', icon: House },
+    { id: 2, title: 'Reading List', link: '/reading-list', icon: BookMarked },
+    { id: 3, title: 'Tags', link: '/tags', icon: Tag },
+    { id: 4, title: 'Help', link: '/help', icon: Lightbulb },
+    { id: 5, title: 'About', link: '/about', icon: Info },
+    { id: 6, title: 'Contact', link: '/contact', icon: Mail },
+    { id: 7, title: 'Privacy Policy', link: '/privacy-policy', icon: LockKeyhole },
+    { id: 8, title: 'Terms of use', link: '/terms-of-use', icon: FileText },
 ];
 
 export const settingsOptions: settingsOptionType[] = [
@@ -17,5 +19,5 @@ export const settingsOptions: settingsOptionType[] = [
     { id: 3, title: 'Notifications', link: '/settings/notifications' },
     { id: 4, title: 'Account', link: '/settings/account' },
     { id: 5, title: 'Organization', link: '/settings/organization' },
-    { id: 6, title: 'Extensions', link: '/settings/extensions' },
+    // { id: 6, title: 'Extensions', link: '/settings/extensions' },
 ];

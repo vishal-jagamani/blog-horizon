@@ -1,19 +1,16 @@
 'use client';
 
 import { ThemeProvider } from '@/components/theme-provider';
-import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const queryClient = new QueryClient();
 
 export function Providers({ children }: { children: React.ReactNode }) {
     return (
-        <UserProvider>
-            <QueryClientProvider client={queryClient}>
-                <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-                    {children}
-                </ThemeProvider>
-            </QueryClientProvider>
-        </UserProvider>
+        <QueryClientProvider client={queryClient}>
+            <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+                {children}
+            </ThemeProvider>
+        </QueryClientProvider>
     );
 }
