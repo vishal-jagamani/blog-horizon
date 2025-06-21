@@ -2,7 +2,7 @@
 
 import HomePage from '@/app/(main)/_home/page';
 
-const Home = () => {
+const Home: React.FC = () => {
     return (
         <>
             <HomePage />

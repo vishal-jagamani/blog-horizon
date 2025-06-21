@@ -19,14 +19,16 @@ const LeftNavigation: React.FC<LeftNavigationProps> = ({ closeSheet }) => {
                 {/* <div> */}
                 {isMobile && <SearchInput />}
                 {/* </div> */}
-                <div className="flex flex-col">
+                <div className="flex flex-col space-y-2">
                     {leftNavigationOptions?.map((item) => {
+                        const Icon = item.icon;
                         return (
-                            <div key={item?.id} className="w-full py-2">
-                                <Link href={item.link} onClick={closeSheet}>
+                            <Link key={item?.id} href={item.link} onClick={closeSheet}>
+                                <div className="flex w-full items-center space-x-2 py-2">
+                                    {Icon && <Icon className="text-foreground h-5 w-5" strokeWidth={1.2} />}
                                     <p>{item.title}</p>
-                                </Link>
-                            </div>
+                                </div>
+                            </Link>
                         );
                     })}
                 </div>

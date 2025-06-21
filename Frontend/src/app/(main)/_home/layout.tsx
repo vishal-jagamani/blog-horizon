@@ -1,44 +1,23 @@
 'use client';
 
 import LeftNavigation from '@/components/home/LeftNavigation';
-import { userStore } from '@/store/user';
+import React from 'react';
 import useScreenSize from '@/utils/hof/useScreenSize';
-import { useUser } from '@auth0/nextjs-auth0/client';
-import React, { useEffect } from 'react';
 
-export default function HomeLayout({ children }: { children: React.ReactNode }) {
-    const { user } = useUser();
-    const { userDetails, updateUserDetails } = userStore();
+export default function MainLayout({ children }: { children: React.ReactNode }) {
     const { isMobile } = useScreenSize();
 
-    useEffect(() => {
-        updateUserDetails(user ?? null);
-    }, [user, updateUserDetails]);
-
     return (
-        // <div className="bg-background flex min-h-screen w-screen justify-between px-4 sm:px-20">
-        //     {!isMobile && (
-        //         <div className="flex w-52 border-x-[1px]">
-        //             <LeftNavigation />
-        //         </div>
-        //     )}
-        //     <div className="flex w-full border-x-[1px]">{children}</div>
-        //     {!isMobile && (
-        //         <div className="flex w-52 border-x-[1px]">
-        //             <p className="text-wrap">User details: {userDetails?.name}</p>
-        //         </div>
-        //     )}
-        // </div>
-        <div className="bg-background flex min-h-screen w-screen justify-between px-4 sm:px-20">
+        <div className="relative flex w-screen justify-center px-4 md:px-20">
             {!isMobile && (
-                <div className="flex w-52 border-x-[1px]">
+                <div className="fixed left-20 h-screen w-60 border-r py-6">
                     <LeftNavigation />
                 </div>
             )}
-            <div className="flex w-full border-x-[1px]">{children}</div>
+            <div className="w-full md:w-[80%]">{children}</div>
             {!isMobile && (
-                <div className="flex w-52 border-x-[1px]">
-                    <p className="text-wrap">User details: {userDetails?.name}</p>
+                <div className="fixed right-20 h-screen w-60 border-l py-6">
+                    <p>Right Nav</p>
                 </div>
             )}
         </div>

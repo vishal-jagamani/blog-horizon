@@ -1,8 +1,11 @@
 'use client';
 
 import { useEditorStore } from '@/store/blogs/editor';
+import MarkdownPreview from '@uiw/react-markdown-preview';
 import React, { useEffect, useRef, useState } from 'react';
-import ReactMarkdown from 'react-markdown';
+import remarkBreaks from 'remark-breaks';
+import { Textarea } from '../ui/textarea';
+import BlogTitleDescription from './editor/BlogTitleDescription';
 import remarkGfm from 'remark-gfm';
 
 const MarkdownEditor: React.FC = () => {
@@ -18,7 +21,7 @@ const MarkdownEditor: React.FC = () => {
             const end = textarea.selectionEnd;
             const text = textarea.value;
             const selected = text.substring(start, end);
-            const newText = text.substring(0, start) + `**${selected}**` + text.substring(end);
+            const newText = text.substring(0, start) + `${selected}` + text.substring(end);
 
             textarea.value = newText;
             textarea.focus();
@@ -29,16 +32,27 @@ const MarkdownEditor: React.FC = () => {
 
     return (
         <>
-            <div className="grid h-full w-full grid-cols-1 gap-4 md:grid-cols-2">
-                <textarea
-                    ref={editorRef}
-                    className="bg-background h-[100%] w-full resize-none rounded p-4 font-mono focus:border-blue-500 focus:ring-1 focus:ring-blue-300 focus:outline-none"
-                    value={markdown}
-                    onChange={(e) => setMarkdown(e.target.value)}
-                    placeholder="Write your markdown here..."
-                />
-                <div className="h-full w-full max-w-none overflow-auto rounded border p-4">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown>
+            <div className="grid h-full w-full grid-cols-1 gap-4 overflow-hidden md:grid-cols-2">
+                {/* Left Pane - Editor */}
+                <div className="flex h-full flex-col overflow-hidden">
+                    <BlogTitleDescription />
+                    <Textarea
+                        ref={editorRef}
+                        className="bg-background text-foreground placeholder:text-foreground h-full flex-grow resize-none rounded border-none p-4 font-mono text-3xl shadow-none focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
+                        value={markdown}
+                        onChange={(e) => setMarkdown(e.target.value)}
+                        placeholder="Write your markdown here..."
+                    />
+                </div>
+
+                {/* Right Pane - Preview */}
+                <div className="markdown-preview h-full overflow-auto rounded border p-4">
+                    <MarkdownPreview
+                        source={markdown}
+                        remarkPlugins={[remarkBreaks, remarkGfm]}
+                        style={{ backgroundColor: 'transparent', color: 'inherit' }}
+                        className="prose dark:prose-invert max-w-none list-inside list-disc pl-4"
+                    />
                 </div>
             </div>
         </>
