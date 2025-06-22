@@ -2,12 +2,14 @@
 
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { profileMenuOptions } from '@/config/config';
+import { useUserStore } from '@/store/user';
 import useScreenSize from '@/utils/hof/useScreenSize';
 import { PopoverTrigger } from '@radix-ui/react-popover';
 import { Menu } from 'lucide-react';
 import Link from 'next/link';
 import React, { useRef, useState } from 'react';
 import { GoBell } from 'react-icons/go';
+import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Popover, PopoverContent } from '../ui/popover';
 import { Separator } from '../ui/separator';
@@ -18,6 +20,7 @@ const NavBar: React.FC = () => {
     const [open, setOpen] = useState<boolean>(false);
     const closeRef = useRef<HTMLButtonElement>(null);
     const { isMobile } = useScreenSize();
+    const { isLoggedIn } = useUserStore();
 
     const closeSheet = () => {
         if (closeRef.current) {
@@ -66,45 +69,54 @@ const NavBar: React.FC = () => {
                         <p className="block text-lg font-bold sm:hidden">Blog Horizon</p>
                     </div>
                     <div className="flex space-x-4 sm:space-x-6">
-                        <Link href="/new">
-                            <p className="hover:bg-primary text-md text-primary border-primary rounded-md border-[1px] px-4 py-1 font-semibold hover:text-white">
-                                New Post
-                            </p>
-                        </Link>
-                        <GoBell className="self-center text-2xl hover:cursor-pointer" size={26} />
-                        <Popover open={open} onOpenChange={setOpen}>
-                            <PopoverTrigger asChild>
-                                <Avatar className="self-center hover:cursor-pointer" onClick={() => setOpen(!open)}>
-                                    <AvatarImage
-                                        loading="lazy"
-                                        src="https://avatars.githubusercontent.com/u/93400369?s=400&u=4e03d23a5a20c3b79155d1dc7682525532c24797&v=4"
-                                        alt="@vishaljagamani"
-                                    />
-                                    {/* <AvatarFallback>VJ</AvatarFallback> */}
-                                </Avatar>
-                            </PopoverTrigger>
-                            <PopoverContent className="mr-3.5 flex w-52 p-2 sm:mr-20">
-                                <div className="group flex w-full flex-col">
-                                    <p className="rounded-sm px-4 py-2 hover:cursor-pointer hover:bg-gray-200 dark:hover:bg-[#272729]">
-                                        <Link href="/vishal_jagamani">Vishal Jagamani</Link>
-                                    </p>
-                                    <Separator className="my-2" />
-                                    {profileMenuOptions?.map((option) => {
-                                        return (
-                                            <Link href={option.link} key={option.id} onClick={() => setOpen(false)}>
-                                                <p className="rounded-sm px-4 py-2 hover:cursor-pointer hover:bg-gray-200 dark:hover:bg-[#272729]">
-                                                    {option.title}
-                                                </p>
-                                            </Link>
-                                        );
-                                    })}
-                                    <Separator className="my-2" />
-                                    <Link href="/auth/logout" onClick={() => setOpen(false)}>
-                                        <p className="rounded-sm px-4 py-2 hover:cursor-pointer hover:bg-gray-200 dark:hover:bg-[#272729]">Logout</p>
-                                    </Link>
-                                </div>
-                            </PopoverContent>
-                        </Popover>
+                        <Button
+                            variant="default"
+                            className="text-foreground text-md hover:bg-primary hover:text-foreground hover:border-background border-primary border-[1px] bg-transparent px-6 font-bold hover:cursor-pointer"
+                        >
+                            New Post
+                        </Button>
+                        {isLoggedIn && <GoBell className="self-center text-2xl hover:cursor-pointer" size={26} />}
+                        {isLoggedIn ? (
+                            <Popover open={open} onOpenChange={setOpen}>
+                                <PopoverTrigger asChild>
+                                    <Avatar className="self-center hover:cursor-pointer" onClick={() => setOpen(!open)}>
+                                        <AvatarImage
+                                            loading="lazy"
+                                            src="https://avatars.githubusercontent.com/u/93400369?s=400&u=4e03d23a5a20c3b79155d1dc7682525532c24797&v=4"
+                                            alt="@vishaljagamani"
+                                        />
+                                        {/* <AvatarFallback>VJ</AvatarFallback> */}
+                                    </Avatar>
+                                </PopoverTrigger>
+                                <PopoverContent className="mr-3.5 flex w-52 p-2 sm:mr-20">
+                                    <div className="group flex w-full flex-col">
+                                        <p className="rounded-sm px-4 py-2 hover:cursor-pointer hover:bg-gray-200 dark:hover:bg-[#272729]">
+                                            <Link href="/vishal_jagamani">Vishal Jagamani</Link>
+                                        </p>
+                                        <Separator className="my-2" />
+                                        {profileMenuOptions?.map((option) => {
+                                            return (
+                                                <Link href={option.link} key={option.id} onClick={() => setOpen(false)}>
+                                                    <p className="rounded-sm px-4 py-2 hover:cursor-pointer hover:bg-gray-200 dark:hover:bg-[#272729]">
+                                                        {option.title}
+                                                    </p>
+                                                </Link>
+                                            );
+                                        })}
+                                        <Separator className="my-2" />
+                                        <Link href="/auth/logout" onClick={() => setOpen(false)}>
+                                            <p className="rounded-sm px-4 py-2 hover:cursor-pointer hover:bg-gray-200 dark:hover:bg-[#272729]">
+                                                Logout
+                                            </p>
+                                        </Link>
+                                    </div>
+                                </PopoverContent>
+                            </Popover>
+                        ) : (
+                            <Link href="/auth/login">
+                                <Button className="self-center hover:cursor-pointer">Login</Button>
+                            </Link>
+                        )}
                     </div>
                 </div>
             </div>
