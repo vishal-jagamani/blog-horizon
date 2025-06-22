@@ -1,8 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-    // baseURL: process.env.NEXT_PUBLIC_API_URL,
-    baseURL: 'http://ec2-52-66-222-172.ap-south-1.compute.amazonaws.com:8080/bloghorizon',
+    baseURL: process.env.NEXT_PUBLIC_API_URL,
     withCredentials: true,
     timeout: 10000,
     headers: {
