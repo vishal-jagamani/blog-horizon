@@ -1,8 +1,6 @@
 package com.bloghorizon.backend.controllers;
 
-import com.bloghorizon.backend.dtos.UserResponse;
-import com.bloghorizon.backend.dtos.UserSignupRequest;
-import com.bloghorizon.backend.response.ApiResponse;
+import com.bloghorizon.backend.dto.UserSignupRequest;
 import com.bloghorizon.backend.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;

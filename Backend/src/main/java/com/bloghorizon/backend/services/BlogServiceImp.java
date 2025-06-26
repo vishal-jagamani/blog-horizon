@@ -1,25 +1,39 @@
 package com.bloghorizon.backend.services;
 
-import com.bloghorizon.backend.dtos.Blog;
+import com.bloghorizon.backend.entity.Blog;
+import com.bloghorizon.backend.dto.BlogDto;
+import com.bloghorizon.backend.entity.User;
 import com.bloghorizon.backend.exceptions.ResourceNotFoundException;
 import com.bloghorizon.backend.repositories.BlogRepository;
+import com.bloghorizon.backend.repositories.UserRepository;
 import com.bloghorizon.backend.utils.SequenceGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
-import java.util.Date;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BlogServiceImp implements BlogService {
 
     private final BlogRepository blogRepository;
+    private final UserRepository userRepository;
     private final SequenceGeneratorService sequenceGenerator;
 
     @Autowired
-    public BlogServiceImp(BlogRepository blogRepository, SequenceGeneratorService sequenceGenerator) {
+    public BlogServiceImp(BlogRepository blogRepository,
+                          SequenceGeneratorService sequenceGenerator,
+                          UserRepository userRepository) {
         this.blogRepository = blogRepository;
         this.sequenceGenerator = sequenceGenerator;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -31,9 +45,60 @@ public class BlogServiceImp implements BlogService {
         return blogRepository.save(blog);
     }
 
+
     @Override
-    public List<Blog> getAllBlogs() {
-        return blogRepository.findAll();
+    public Page<BlogDto> getAllBlogs(int page, int limit) {
+        Pageable pageable = PageRequest.of(page, limit);
+        Page<Blog> blogPage = blogRepository.findAll(pageable);
+
+        List<String> auth0Ids = blogPage.getContent().stream()
+                .map(Blog::getAuthorId)
+                .distinct()
+                .toList();
+
+        Map<String, String> authorIdToName = userRepository.findByAuth0IdIn(auth0Ids)
+                .stream()
+                .collect(Collectors.toMap(User::getAuth0Id, User::getUsername));
+
+        List<BlogDto> dtoList = blogPage.getContent().stream()
+                .map(blog -> new BlogDto(
+                        blog.getId(),
+                        blog.getTitle(),
+                        blog.getContent(),
+                        blog.getAuthorId(),
+                        authorIdToName.getOrDefault(blog.getAuthorId(), "Unknown"),
+                        blog.getTags(),
+                        blog.getLikesCount(),
+                        blog.getCommentsCount()
+                ))
+                .toList();
+
+        return new PageImpl<>(dtoList, pageable, blogPage.getTotalElements());
+    }
+
+    @Override
+    public Page<BlogDto> getBlogsByAuthorId(String auth0Id, int page, int limit) {
+        Pageable pageable = PageRequest.of(page, limit);
+        Page<Blog> blogPage = blogRepository.findByAuthorId(auth0Id, pageable);
+
+        String authorName = userRepository.findByAuth0Id(auth0Id)
+                .map(User::getUsername)
+                .orElse("Unknown");
+
+        List<BlogDto> dtoList = blogPage.getContent().stream()
+                .map(blog -> new BlogDto(
+                        blog.getId(),
+                        blog.getTitle(),
+                        blog.getContent(),
+                        blog.getAuthorId(),
+                        authorName,
+                        blog.getTags(),
+                        blog.getLikesCount(),
+                        blog.getCommentsCount()
+                ))
+                .toList();
+
+        return new PageImpl<>(dtoList, pageable, blogPage.getTotalElements());
     }
 
     @Override
@@ -50,9 +115,7 @@ public class BlogServiceImp implements BlogService {
         existingBlog.setTags(updatedBlog.getTags());
         existingBlog.setLikesCount(updatedBlog.getLikesCount());
         existingBlog.setCommentsCount(updatedBlog.getCommentsCount());
-
         existingBlog.setUpdatedAt(System.currentTimeMillis());
-
         return blogRepository.save(existingBlog);
     }
 

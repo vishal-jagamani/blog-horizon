@@ -1,10 +1,9 @@
 package com.bloghorizon.backend.services;
 
-import com.bloghorizon.backend.dtos.UserResponse;
-import com.bloghorizon.backend.dtos.UserSignupRequest;
-import com.bloghorizon.backend.entities.User;
+import com.bloghorizon.backend.dto.UserResponse;
+import com.bloghorizon.backend.dto.UserSignupRequest;
+import com.bloghorizon.backend.entity.User;
 import com.bloghorizon.backend.repositories.UserRepository;
-import com.bloghorizon.backend.response.ApiResponse;
 import com.bloghorizon.backend.response.ResponseBuilder;
 import com.bloghorizon.backend.utils.SequenceGeneratorService;
 import org.springframework.http.HttpStatus;

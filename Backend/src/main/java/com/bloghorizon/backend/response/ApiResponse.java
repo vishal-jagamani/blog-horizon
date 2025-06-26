@@ -1,38 +1,24 @@
 package com.bloghorizon.backend.response;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
 public class ApiResponse<T> {
-    private Boolean status;
+    private boolean status;
+    @Getter
     private String message;
+    @Getter
     private T data;
 
-    public ApiResponse(Boolean status, String message, T data) {
+    public ApiResponse(boolean status, String message, T data) {
         this.status = status;
         this.message = message;
         this.data = data;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
-
-    public Boolean getStatus() {
+    public boolean getStatus() {
         return status;
-    }
-
-    public void setStatus(Boolean status) {
-        this.status = status;
     }
 }
 
