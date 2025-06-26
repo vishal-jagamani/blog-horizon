@@ -1,4 +1,4 @@
-package com.bloghorizon.backend.dtos;
+package com.bloghorizon.backend.dto;
 
 public class UserResponse {
     private final Long id;
