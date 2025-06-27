@@ -4,9 +4,9 @@ import React, { useEffect } from 'react';
 
 import BlogCard from '@/components/home/BlogCard';
 import LeftNavigation from '@/components/home/LeftNavigation';
-import { fetchAccessToken } from '@/services/fetchAccesToken';
 import { useBlogs } from '@/services/hooks/useBlogs';
 import useScreenSize from '@/utils/hof/useScreenSize';
+import { fetchAccessToken } from '@/services/fetchAccessToken';
 
 const Page: React.FC = () => {
     const { isMobile } = useScreenSize();

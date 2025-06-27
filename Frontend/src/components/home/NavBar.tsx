@@ -5,7 +5,7 @@ import { profileMenuOptions } from '@/config/config';
 import { useUserStore } from '@/store/user';
 import useScreenSize from '@/utils/hof/useScreenSize';
 import { PopoverTrigger } from '@radix-ui/react-popover';
-import { Menu } from 'lucide-react';
+import { Menu, Search } from 'lucide-react';
 import Link from 'next/link';
 import React, { useRef, useState } from 'react';
 import { GoBell } from 'react-icons/go';
@@ -30,16 +30,17 @@ const NavBar: React.FC = () => {
 
     return (
         <>
-            <div className="bg-background fixed z-10 flex h-auto w-screen flex-col-reverse flex-wrap items-center justify-between border-b-[1px] border-gray-300 px-4 py-3 sm:h-14 sm:flex-row sm:px-20">
+            <div className="bg-background fixed z-10 flex h-auto w-screen flex-col-reverse flex-wrap items-center justify-between border-b-[1px] border-gray-300 px-4 sm:h-14 sm:flex-row sm:px-20">
                 <div className="flex w-full items-center justify-start sm:mb-0 sm:w-auto sm:space-x-4">
                     <Link href="/">
                         <p className="text-primary hidden text-xl font-bold text-nowrap hover:cursor-pointer sm:block">Blog Horizon</p>
                     </Link>
-                    <div className="flex w-full items-center justify-start sm:w-full">
+                    <div className="relative flex w-full items-center justify-start sm:w-full">
+                        <Search size={22} strokeWidth={1.5} className="absolute left-2 top-1/2 -translate-y-1/2" />
                         <Input
                             type="search"
                             placeholder="Search..."
-                            className="placeholder:text-foreground w-full focus-within:border-red-600 sm:w-2xl"
+                            className="placeholder:text-foreground w-full focus-within:border-red-600 sm:w-2xl pl-10"
                             onKeyDown={(e) => console.log('Search...', e.key)}
                         />
                     </div>
