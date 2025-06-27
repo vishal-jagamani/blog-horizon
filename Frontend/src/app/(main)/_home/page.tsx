@@ -1,20 +1,20 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import BlogCard from '@/components/home/BlogCard';
 import LeftNavigation from '@/components/home/LeftNavigation';
 import { useBlogs } from '@/services/hooks/useBlogs';
 import useScreenSize from '@/utils/hof/useScreenSize';
-import { fetchAccessToken } from '@/services/fetchAccessToken';
+// import { fetchAccessToken } from '@/services/fetchAccessToken';
 
 const Page: React.FC = () => {
     const { isMobile } = useScreenSize();
     const { data, isLoading, error } = useBlogs();
 
-    useEffect(() => {
-        fetchAccessToken();
-    }, []);
+    // useEffect(() => {
+    //     fetchAccessToken();
+    // }, []);
 
     return (
         <>
