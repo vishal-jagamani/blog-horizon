@@ -4,6 +4,7 @@ export interface Blog {
     content: string;
     authorId: string;
     authorName: string;
+    authorUserName: string;
     tags: string[];
     likesCount: number;
     commentsCount: number;
