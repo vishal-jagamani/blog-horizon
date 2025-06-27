@@ -36,11 +36,11 @@ const NavBar: React.FC = () => {
                         <p className="text-primary hidden text-xl font-bold text-nowrap hover:cursor-pointer sm:block">Blog Horizon</p>
                     </Link>
                     <div className="relative flex w-full items-center justify-start sm:w-full">
-                        <Search size={22} strokeWidth={1.5} className="absolute left-2 top-1/2 -translate-y-1/2" />
+                        <Search size={22} strokeWidth={1.5} className="absolute top-1/2 left-2 -translate-y-1/2" />
                         <Input
                             type="search"
                             placeholder="Search..."
-                            className="placeholder:text-foreground w-full focus-within:border-red-600 sm:w-2xl pl-10"
+                            className="placeholder:text-foreground w-full pl-10 focus-within:border-red-600 sm:w-2xl"
                             onKeyDown={(e) => console.log('Search...', e.key)}
                         />
                     </div>
@@ -105,18 +105,20 @@ const NavBar: React.FC = () => {
                                             );
                                         })}
                                         <Separator className="my-2" />
-                                        <Link href="/auth/logout" onClick={() => setOpen(false)}>
+                                        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+                                        <a href="/auth/logout" onClick={() => setOpen(false)}>
                                             <p className="rounded-sm px-4 py-2 hover:cursor-pointer hover:bg-gray-200 dark:hover:bg-[#272729]">
                                                 Logout
                                             </p>
-                                        </Link>
+                                        </a>
                                     </div>
                                 </PopoverContent>
                             </Popover>
                         ) : (
-                            <Link href="/auth/login">
+                            // eslint-disable-next-line @next/next/no-html-link-for-pages
+                            <a href="/auth/login">
                                 <Button className="self-center hover:cursor-pointer">Login</Button>
-                            </Link>
+                            </a>
                         )}
                     </div>
                 </div>
