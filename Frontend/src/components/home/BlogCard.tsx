@@ -1,6 +1,6 @@
 'use client';
 
-import { Blog } from '@/services/types/blog.types';
+import { Blog } from '@/features/blogs/blogs.types';
 import React, { useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Bookmark, Heart, MessageCircle } from 'lucide-react';
