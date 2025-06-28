@@ -2,19 +2,18 @@
 
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { profileMenuOptions } from '@/config/config';
-import { useUserStore } from '@/store/user';
 import useScreenSize from '@/utils/hof/useScreenSize';
 import { PopoverTrigger } from '@radix-ui/react-popover';
-import { Menu, Search } from 'lucide-react';
+import { Bell, Menu, Search } from 'lucide-react';
 import Link from 'next/link';
 import React, { useRef, useState } from 'react';
-import { GoBell } from 'react-icons/go';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Popover, PopoverContent } from '../ui/popover';
 import { Separator } from '../ui/separator';
 import { Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '../ui/sheet';
 import LeftNavigation from './LeftNavigation';
+import { useUserStore } from '@/features/auth/auth.store';
 
 const NavBar: React.FC = () => {
     const [open, setOpen] = useState<boolean>(false);
@@ -76,7 +75,7 @@ const NavBar: React.FC = () => {
                         >
                             New Post
                         </Button>
-                        {isLoggedIn && <GoBell className="self-center text-2xl hover:cursor-pointer" size={26} />}
+                        {isLoggedIn && <Bell className="self-center text-2xl hover:cursor-pointer" size={26} />}
                         {isLoggedIn ? (
                             <Popover open={open} onOpenChange={setOpen}>
                                 <PopoverTrigger asChild>
