@@ -1,4 +1,5 @@
 import { User as Auth0User } from '@auth0/nextjs-auth0/types';
+import { LucideIcon } from 'lucide-react';
 
 // Store types
 export type AuthStoreType = {
@@ -27,4 +28,13 @@ export interface getUserByIdResponse {
     status: boolean;
     message: string;
     data: User;
+}
+
+// Components props
+export interface SignUpInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+    name: string;
+    label: string;
+    type: string;
+    error: string;
+    icon?: LucideIcon;
 }
