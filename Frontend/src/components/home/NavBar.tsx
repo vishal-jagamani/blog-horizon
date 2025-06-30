@@ -91,7 +91,9 @@ const NavBar: React.FC = () => {
                                 <PopoverContent className="mr-3.5 flex w-52 p-2 sm:mr-20">
                                     <div className="group flex w-full flex-col">
                                         <p className="rounded-sm px-4 py-2 hover:cursor-pointer hover:bg-gray-200 dark:hover:bg-[#272729]">
-                                            <Link href="/vishal_jagamani">Vishal Jagamani</Link>
+                                            <Link href="/vishal_jagamani" onClick={() => setOpen(false)}>
+                                                Vishal Jagamani
+                                            </Link>
                                         </p>
                                         <Separator className="my-2" />
                                         {profileMenuOptions?.map((option) => {
@@ -104,20 +106,18 @@ const NavBar: React.FC = () => {
                                             );
                                         })}
                                         <Separator className="my-2" />
-                                        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-                                        <a href="/auth/logout" onClick={() => setOpen(false)}>
+                                        <Link href="/auth/logout" onClick={() => setOpen(false)}>
                                             <p className="rounded-sm px-4 py-2 hover:cursor-pointer hover:bg-gray-200 dark:hover:bg-[#272729]">
                                                 Logout
                                             </p>
-                                        </a>
+                                        </Link>
                                     </div>
                                 </PopoverContent>
                             </Popover>
                         ) : (
-                            // eslint-disable-next-line @next/next/no-html-link-for-pages
-                            <a href="/auth/login">
+                            <Link href="/auth/login">
                                 <Button className="self-center hover:cursor-pointer">Login</Button>
-                            </a>
+                            </Link>
                         )}
                     </div>
                 </div>
