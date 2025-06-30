@@ -36,12 +36,6 @@ const Page: React.FC = () => {
                                     {data?.data?.map((item) => (
                                         <BlogCard key={item.id} blog={item} />
                                     ))}
-                                    {data?.data?.map((item) => (
-                                        <BlogCard key={`copy1-${item.id}`} blog={item} />
-                                    ))}
-                                    {data?.data?.map((item) => (
-                                        <BlogCard key={`copy2-${item.id}`} blog={item} />
-                                    ))}
                                 </div>
                             )}
                         </div>
