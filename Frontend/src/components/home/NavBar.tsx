@@ -98,29 +98,26 @@ const NavBar: React.FC = () => {
                                         <Separator className="my-2" />
                                         {profileMenuOptions?.map((option) => {
                                             return (
-                                                <a href={option.link} key={option.id} onClick={() => setOpen(false)}>
-                                                    {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+                                                <Link href={option.link} key={option.id} onClick={() => setOpen(false)}>
                                                     <p className="rounded-sm px-4 py-2 hover:cursor-pointer hover:bg-gray-200 dark:hover:bg-[#272729]">
                                                         {option.title}
                                                     </p>
-                                                </a>
+                                                </Link>
                                             );
                                         })}
                                         <Separator className="my-2" />
-                                        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-                                        <a href="/auth/logout" onClick={() => setOpen(false)}>
+                                        <Link href="/auth/logout" onClick={() => setOpen(false)}>
                                             <p className="rounded-sm px-4 py-2 hover:cursor-pointer hover:bg-gray-200 dark:hover:bg-[#272729]">
                                                 Logout
                                             </p>
-                                        </a>
+                                        </Link>
                                     </div>
                                 </PopoverContent>
                             </Popover>
                         ) : (
-                            // eslint-disable-next-line @next/next/no-html-link-for-pages
-                            <a href="/auth/login">
+                            <Link href="/auth/login">
                                 <Button className="self-center hover:cursor-pointer">Login</Button>
-                            </a>
+                            </Link>
                         )}
                     </div>
                 </div>
