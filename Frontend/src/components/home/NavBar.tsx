@@ -106,18 +106,18 @@ const NavBar: React.FC = () => {
                                             );
                                         })}
                                         <Separator className="my-2" />
-                                        <Link href="/auth/logout" onClick={() => setOpen(false)}>
+                                        <a href="/auth/logout" onClick={() => setOpen(false)}>
                                             <p className="rounded-sm px-4 py-2 hover:cursor-pointer hover:bg-gray-200 dark:hover:bg-[#272729]">
                                                 Logout
                                             </p>
-                                        </Link>
+                                        </a>
                                     </div>
                                 </PopoverContent>
                             </Popover>
                         ) : (
-                            <Link href="/auth/login">
+                            <a href="/auth/login">
                                 <Button className="self-center hover:cursor-pointer">Login</Button>
-                            </Link>
+                            </a>
                         )}
                     </div>
                 </div>
