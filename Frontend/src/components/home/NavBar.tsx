@@ -6,7 +6,7 @@ import useScreenSize from '@/utils/hof/useScreenSize';
 import { PopoverTrigger } from '@radix-ui/react-popover';
 import { Bell, Menu, Search } from 'lucide-react';
 import Link from 'next/link';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Popover, PopoverContent } from '../ui/popover';
@@ -16,6 +16,9 @@ import LeftNavigation from './LeftNavigation';
 import { useUserStore } from '@/features/auth/auth.store';
 
 const NavBar: React.FC = () => {
+    const [hasMounted, setHasMounted] = useState(false);
+    useEffect(() => setHasMounted(true), []);
+
     const [open, setOpen] = useState<boolean>(false);
     const closeRef = useRef<HTMLButtonElement>(null);
     const { isMobile } = useScreenSize();
@@ -26,6 +29,8 @@ const NavBar: React.FC = () => {
             closeRef.current.click();
         }
     };
+
+    if (!hasMounted) return null;
 
     return (
         <>
@@ -106,18 +111,18 @@ const NavBar: React.FC = () => {
                                             );
                                         })}
                                         <Separator className="my-2" />
-                                        <a href="/auth/logout" onClick={() => setOpen(false)}>
+                                        <Link href="/auth/logout" onClick={() => setOpen(false)}>
                                             <p className="rounded-sm px-4 py-2 hover:cursor-pointer hover:bg-gray-200 dark:hover:bg-[#272729]">
                                                 Logout
                                             </p>
-                                        </a>
+                                        </Link>
                                     </div>
                                 </PopoverContent>
                             </Popover>
                         ) : (
-                            <a href="/auth/login">
+                            <Link href="/auth/login">
                                 <Button className="self-center hover:cursor-pointer">Login</Button>
-                            </a>
+                            </Link>
                         )}
                     </div>
                 </div>
