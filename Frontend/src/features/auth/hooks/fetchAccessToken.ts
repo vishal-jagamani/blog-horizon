@@ -5,7 +5,7 @@ export const fetchAccessToken = async () => {
         const res = await fetch('/auth/access-token');
         console.log('Access token call');
         if (!res.ok) {
-            throw new Error('User not authenticated or token fetch failed');
+            console.log('User not authenticated or token fetch failed');
         }
         const data: { token: string } = await res.json();
         if (data?.token) {
