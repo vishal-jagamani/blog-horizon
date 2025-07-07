@@ -22,7 +22,7 @@ public class User {
     private Long id;
 
     @Indexed(unique = true)
-    private String auth0Id;
+    private String auth0UserId;
 
     @Indexed(unique = true)
     private String email;

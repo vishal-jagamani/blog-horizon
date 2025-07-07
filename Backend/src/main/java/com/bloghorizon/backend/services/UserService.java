@@ -11,9 +11,9 @@ public interface UserService {
 
     ResponseEntity<ApiResponse<SignupResponse>> signup(UserSignupRequest request);
 
-    ResponseEntity<ApiResponse<UserResponse>> getUserDetails(String auth0Id);
+    ResponseEntity<ApiResponse<UserResponse>> getUserDetails(String auth0UserId);
 
-    ResponseEntity<ApiResponse<UserResponse>> completeSignup(String auth0Id, CompleteSignupRequest request);
+    ResponseEntity<ApiResponse<UserResponse>> completeSignup(String auth0UserId, CompleteSignupRequest request);
 
     ResponseEntity<ApiResponse<Boolean>> checkUsernameAvailability(String username);
 }

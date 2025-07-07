@@ -7,14 +7,14 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SignupResponse {
-    private String auth0Id;
-    private String name;
+    private String auth0UserId;
+    private String username;
     private String email;
     private boolean completedSignup;
 
     public SignupResponse(User user) {
-        this.auth0Id = user.getAuth0Id();
-        this.name = user.getName();
+        this.auth0UserId = user.getAuth0UserId();
+        this.username = user.getUsername();
         this.email = user.getEmail();
         this.completedSignup = user.isCompletedSignup();
     }

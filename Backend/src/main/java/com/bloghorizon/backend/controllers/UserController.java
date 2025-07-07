@@ -26,21 +26,21 @@ public class UserController {
         return userService.signup(request);
     }
 
-    @GetMapping("/{auth0Id}")
-    public ResponseEntity<ApiResponse<UserResponse>> getUserDetails(@PathVariable String auth0Id) {
-        return userService.getUserDetails(auth0Id);
+    @GetMapping("/{auth0UserId}")
+    public ResponseEntity<ApiResponse<UserResponse>> getUserDetails(@PathVariable String auth0UserId) {
+        return userService.getUserDetails(auth0UserId);
     }
 
     @GetMapping("/username/check")
-    public ResponseEntity<ApiResponse<Boolean>> checkUsernameAvailability(@RequestParam("value") String username) {
-        return userService.checkUsernameAvailability(username);
+    public ResponseEntity<ApiResponse<Boolean>> checkUsernameAvailability(@RequestParam("value") String userName) {
+        return userService.checkUsernameAvailability(userName);
     }
 
-    @PutMapping("/{auth0Id}/complete-signup")
+    @PutMapping("/{auth0UserId}/complete-signup")
     public ResponseEntity<ApiResponse<UserResponse>> completeSignup(
-            @PathVariable String auth0Id,
+            @PathVariable String auth0UserId,
             @RequestBody @Valid CompleteSignupRequest request) {
-        return userService.completeSignup(auth0Id, request);
+        return userService.completeSignup(auth0UserId, request);
     }
 
 

@@ -12,9 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CompleteSignupRequest {
-    @NotBlank
     private String username;
-    @NotBlank
     private String name;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate birthday;

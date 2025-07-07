@@ -9,14 +9,8 @@ import lombok.*;
 @AllArgsConstructor
 public class UserSignupRequest {
 
-    @NotBlank
-    private String auth0Id;
-
-    @NotBlank
-    @Email
+    private String auth0UserId;
     private String email;
-
-    @NotBlank
-    private String name;
+    private String username;
 }
 

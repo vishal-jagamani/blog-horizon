@@ -25,15 +25,15 @@ public class UserServiceImp implements UserService{
 
     @Override
     public ResponseEntity<ApiResponse<SignupResponse>> signup(UserSignupRequest request) {
-        if (userRepository.findByAuth0Id(request.getAuth0Id()).isPresent()) {
+        if (userRepository.findByAuth0UserId(request.getAuth0UserId()).isPresent()) {
             ResponseBuilder.conflict("User with Auth0 ID already exists");
         }
 
         User user = new User();
         user.setId(sequenceGenerator.generateSequence(User.class.getSimpleName()));
-        user.setAuth0Id(request.getAuth0Id());
+        user.setAuth0UserId(request.getAuth0UserId());
         user.setEmail(request.getEmail());
-        user.setName(request.getName());
+        user.setUsername(request.getUsername());
         user.setCompletedSignup(false);
 
         userRepository.save(user);
@@ -41,22 +41,22 @@ public class UserServiceImp implements UserService{
     }
 
     @Override
-    public ResponseEntity<ApiResponse<UserResponse>> getUserDetails(String auth0Id) {
-        Optional<User> optionalUser = userRepository.findByAuth0Id(auth0Id);
+    public ResponseEntity<ApiResponse<UserResponse>> getUserDetails(String auth0UserId) {
+        Optional<User> optionalUser = userRepository.findByAuth0UserId(auth0UserId);
         return optionalUser
                 .map(user -> ResponseBuilder.success(new UserResponse(user), "User fetched"))
-                .orElseGet(() -> ResponseBuilder.notFound("User not found with Auth0 ID: " + auth0Id));
+                .orElseGet(() -> ResponseBuilder.notFound("User not found with Auth0 ID: " + auth0UserId));
     }
 
     @Override
-    public ResponseEntity<ApiResponse<Boolean>> checkUsernameAvailability(String username) {
-        boolean exists = userRepository.existsByUsername(username);
+    public ResponseEntity<ApiResponse<Boolean>> checkUsernameAvailability(String userName) {
+        boolean exists = userRepository.existsByUsername(userName);
         return ResponseBuilder.success(!exists, "Username check complete");
     }
 
     @Override
-    public ResponseEntity<ApiResponse<UserResponse>> completeSignup(String auth0Id, CompleteSignupRequest request) {
-        Optional<User> optionalUser = userRepository.findByAuth0Id(auth0Id);
+    public ResponseEntity<ApiResponse<UserResponse>> completeSignup(String auth0UserId, CompleteSignupRequest request) {
+        Optional<User> optionalUser = userRepository.findByAuth0UserId(auth0UserId);
         if (optionalUser.isEmpty()) {
             return ResponseBuilder.notFound("User not found");
         }
