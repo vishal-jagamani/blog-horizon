@@ -14,12 +14,14 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("*") // ⚠️ Allow all origins
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("*")
-                        .exposedHeaders("Authorization")
-                        .allowCredentials(true) // ⚠️ Must be false when using "*"
+                        .allowedOrigins("*") // ✅ allow all origins
+                        .allowedMethods("*") // ✅ allow all HTTP methods
+                        .allowedHeaders("*") // ✅ allow all headers
+                        .exposedHeaders("*")
+                        .allowCredentials(false) // ❌ MUST be false when using "*"
                         .maxAge(3600);
+
+                System.out.println("✅ CORS enabled: all origins, all methods, no credentials");
             }
         };
     }
