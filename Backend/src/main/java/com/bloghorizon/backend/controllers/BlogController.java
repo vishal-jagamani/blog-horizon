@@ -60,13 +60,13 @@ public class BlogController {
     }
 
     // Get blogs by Auth0 user
-    @GetMapping("/user/{auth0Id}")
+    @GetMapping("/user/{auth0UserId}")
     public ResponseEntity<ApiResponse<PaginatedResponse<BlogDto>>> getBlogsByUser(
-            @PathVariable String auth0Id,
+            @PathVariable String auth0UserId,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int limit) {
 
-        Page<BlogDto> userBlogs = blogService.getBlogsByAuthorId(auth0Id, page - 1, limit);
+        Page<BlogDto> userBlogs = blogService.getBlogsByAuth0UserId(auth0UserId, page - 1, limit);
 
         PaginatedResponse<BlogDto> response = new PaginatedResponse<>(
                 userBlogs.getContent(),

@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,22 +50,22 @@ public class BlogServiceImp implements BlogService {
         Pageable pageable = PageRequest.of(page, limit);
         Page<Blog> blogPage = blogRepository.findAll(pageable);
 
-        List<String> auth0Ids = blogPage.getContent().stream()
-                .map(Blog::getAuthorId)
+        List<String> auth0UserIds = blogPage.getContent().stream()
+                .map(Blog::getAuth0UserId)
                 .distinct()
                 .toList();
 
-        Map<String, String> authorIdToName = userRepository.findByAuth0IdIn(auth0Ids)
+        Map<String, String> auth0UserIdToName = userRepository.findByAuth0UserIdIn(auth0UserIds)
                 .stream()
-                .collect(Collectors.toMap(User::getAuth0Id, User::getUsername));
+                .collect(Collectors.toMap(User::getAuth0UserId, User::getUsername));
 
         List<BlogDto> dtoList = blogPage.getContent().stream()
                 .map(blog -> new BlogDto(
                         blog.getId(),
                         blog.getTitle(),
                         blog.getContent(),
-                        blog.getAuthorId(),
-                        authorIdToName.getOrDefault(blog.getAuthorId(), "Unknown"),
+                        blog.getAuth0UserId(),
+                        auth0UserIdToName.getOrDefault(blog.getAuth0UserId(), "Unknown"),
                         blog.getTags(),
                         blog.getLikesCount(),
                         blog.getCommentsCount()
@@ -77,11 +76,11 @@ public class BlogServiceImp implements BlogService {
     }
 
     @Override
-    public Page<BlogDto> getBlogsByAuthorId(String auth0Id, int page, int limit) {
+    public Page<BlogDto> getBlogsByAuth0UserId(String auth0UserId, int page, int limit) {
         Pageable pageable = PageRequest.of(page, limit);
-        Page<Blog> blogPage = blogRepository.findByAuthorId(auth0Id, pageable);
+        Page<Blog> blogPage = blogRepository.findByAuth0UserId(auth0UserId, pageable);
 
-        String authorName = userRepository.findByAuth0Id(auth0Id)
+        String authorName = userRepository.findByAuth0UserId(auth0UserId)
                 .map(User::getUsername)
                 .orElse("Unknown");
 
@@ -90,7 +89,7 @@ public class BlogServiceImp implements BlogService {
                         blog.getId(),
                         blog.getTitle(),
                         blog.getContent(),
-                        blog.getAuthorId(),
+                        blog.getAuth0UserId(),
                         authorName,
                         blog.getTags(),
                         blog.getLikesCount(),

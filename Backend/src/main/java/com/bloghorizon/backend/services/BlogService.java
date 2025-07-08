@@ -10,5 +10,5 @@ public interface BlogService {
     Blog getBlogById(Long id);
     Blog updateBlog(Long id, Blog blog);
     void deleteBlog(Long id);
-    Page<BlogDto> getBlogsByAuthorId(String auth0Id, int page, int limit);
+    Page<BlogDto> getBlogsByAuth0UserId(String auth0UserId, int page, int limit);
 }

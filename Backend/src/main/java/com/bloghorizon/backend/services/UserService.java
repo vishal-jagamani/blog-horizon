@@ -1,40 +1,19 @@
 package com.bloghorizon.backend.services;
 
+import com.bloghorizon.backend.dto.CompleteSignupRequest;
+import com.bloghorizon.backend.dto.SignupResponse;
 import com.bloghorizon.backend.dto.UserResponse;
 import com.bloghorizon.backend.dto.UserSignupRequest;
-import com.bloghorizon.backend.entity.User;
-import com.bloghorizon.backend.repositories.UserRepository;
-import com.bloghorizon.backend.response.ResponseBuilder;
-import com.bloghorizon.backend.utils.SequenceGeneratorService;
-import org.springframework.http.HttpStatus;
+import com.bloghorizon.backend.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 
-@Service
-public class UserService {
+public interface UserService {
 
-    private final UserRepository repository;
-    private final SequenceGeneratorService sequenceGenerator;
+    ResponseEntity<ApiResponse<SignupResponse>> signup(UserSignupRequest request);
 
-    public UserService(UserRepository repository, SequenceGeneratorService sequenceGenerator) {
-        this.repository = repository;
-        this.sequenceGenerator = sequenceGenerator;
-    }
+    ResponseEntity<ApiResponse<UserResponse>> getUserDetails(String auth0UserId);
 
-    public ResponseEntity<?> registerUser(UserSignupRequest request) {
-        if (repository.existsByEmail(request.getEmail())) {
-            return ResponseBuilder.error("User with this email already exists", HttpStatus.CONFLICT);
-        }
+    ResponseEntity<ApiResponse<UserResponse>> completeSignup(String auth0UserId, CompleteSignupRequest request);
 
-        if (repository.existsByUsername(request.getUsername())) {
-            return ResponseBuilder.error("Username already taken", HttpStatus.CONFLICT);
-        }
-
-        User user = new User(request.getUsername(), request.getEmail());
-        user.setId(sequenceGenerator.generateSequence("user_sequence"));
-        User savedUser = repository.save(user);
-
-        UserResponse response = new UserResponse(savedUser.getId(), savedUser.getUsername(), savedUser.getEmail());
-        return ResponseBuilder.created(response, "User registered successfully");
-    }
+    ResponseEntity<ApiResponse<Boolean>> checkUsernameAvailability(String username);
 }

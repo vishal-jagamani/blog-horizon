@@ -16,7 +16,7 @@ public class Blog {
 
     private String title;
     private String content;
-    private String authorId;
+    private String auth0UserId;
     private List<String> tags;
     private int likesCount;
     private long createdAt;
