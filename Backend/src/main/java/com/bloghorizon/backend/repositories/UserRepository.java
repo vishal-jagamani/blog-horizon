@@ -9,10 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends MongoRepository<User,Long> {
-    boolean existsByEmail(String email);
     boolean existsByUsername(String username);
-    Optional<User> findByEmail(String email);
-    List<User> findByAuth0IdIn(List<String> auth0Ids);
-    Optional<User> findByAuth0Id(String auth0Id);
+    List<User> findByAuth0UserIdIn(List<String> auth0UserIds);
+    Optional<User> findByAuth0UserId(String auth0UserId);
 }
 
