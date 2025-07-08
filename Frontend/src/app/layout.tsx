@@ -1,7 +1,7 @@
-import { UserProvider } from '@auth0/nextjs-auth0/client';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import { Providers } from './providers';
 
 const inter = Inter({ variable: '--font-inter', subsets: ['latin'], display: 'swap' });
 
@@ -28,10 +28,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
-        <html lang="en">
-            <UserProvider>
-                <body className={`${inter.variable} antialiased`}>{children}</body>
-            </UserProvider>
+        <html lang="en" suppressHydrationWarning>
+            <head />
+            <body className={`${inter.variable} flex h-screen w-screen bg-white antialiased dark:bg-black`}>
+                <div className="flex h-screen w-screen flex-col">
+                    <Providers>{children}</Providers>
+                </div>
+            </body>
         </html>
     );
 }
