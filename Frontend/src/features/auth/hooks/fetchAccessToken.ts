@@ -1,16 +1,14 @@
-import { useAuthStore } from '../auth.store';
+import { getAccessToken } from '@auth0/nextjs-auth0';
 
 export const fetchAccessToken = async () => {
     try {
-        const res = await fetch('/auth/access-token');
-        if (!res.ok) {
+        // const res = await fetch('/auth/access-token');
+        const token = await getAccessToken();
+        if (!token) {
             console.log('User not authenticated or token fetch failed');
         }
-        const data: { token: string } = await res.json();
-        if (data?.token) {
-            useAuthStore.getState().setAccessToken(data.token);
-        }
+        return token;
     } catch (err) {
-        console.error('Error getting access token:', err);
+        console.warn('Error getting access token:', err);
     }
 };

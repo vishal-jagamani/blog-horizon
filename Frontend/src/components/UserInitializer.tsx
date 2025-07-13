@@ -1,6 +1,7 @@
 'use client';
 
-import { useUserStore } from '@/features/auth/auth.store';
+import { useAuthStore, useUserStore } from '@/features/auth/auth.store';
+import { fetchAccessToken } from '@/features/auth/hooks/fetchAccessToken';
 import { useUserById } from '@/features/auth/hooks/useUser';
 import { useUser as useAuth0User } from '@auth0/nextjs-auth0';
 import React, { useEffect } from 'react';
@@ -27,12 +28,28 @@ const UserInitializer: React.FC = () => {
         setIsLoggedIn(!!auth0User);
     }, [isLoadingAuth0, setAuth0UserId, setIsLoggedIn, auth0User]);
 
+    // set auth0 access token
     useEffect(() => {
-        if (!auth0User) return;
+        const getAccessToken = async () => {
+            if (!auth0User) return;
+            const token = await fetchAccessToken();
+            if (token) {
+                useAuthStore.getState().setAccessToken(token);
+            } else {
+                console.warn('[❌] No access token returned');
+            }
+        };
+        getAccessToken();
+    }, [auth0User]);
+
+    // set user details
+    useEffect(() => {
+        if (!auth0User || !isSuccess || !userById?.data) return;
         setUserDetails({
             ...auth0User,
             ...userById?.data,
-            isSignupComplete: userById?.data?.isSignupComplete ?? false,
+            completedSignup: userById?.data?.completedSignup ?? false,
+            username: userById?.data?.username ?? '',
         });
         setIsUserInitialized(true);
     }, [auth0User, isSuccess, userById, setUserDetails, setIsUserInitialized]);

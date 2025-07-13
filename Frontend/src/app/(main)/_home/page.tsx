@@ -20,7 +20,7 @@ const Page: React.FC = () => {
         <>
             <div className="relative flex w-screen justify-center px-4 md:px-20">
                 {!isMobile && (
-                    <div className="fixed left-20 h-screen w-60 border-r py-6">
+                    <div className="fixed left-20 h-screen w-60 py-6">
                         <LeftNavigation />
                     </div>
                 )}
@@ -41,11 +41,7 @@ const Page: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                {!isMobile && (
-                    <div className="fixed right-20 h-screen w-60 border-l py-6">
-                        <p>Right Nav</p>
-                    </div>
-                )}
+                {!isMobile && <div className="fixed right-20 h-screen w-60 py-6">{/* <p>Right Nav</p> */}</div>}
             </div>
         </>
     );
