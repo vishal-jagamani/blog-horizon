@@ -4,6 +4,7 @@ const optionalField = (schema: z.ZodTypeAny) =>
     z.preprocess((val) => (typeof val === 'string' && val.trim() === '' ? undefined : val), schema.optional());
 
 export const SignupSchema = z.object({
+    name: z.string().min(2, { message: 'Name must be at least 2 characters' }).max(50, { message: 'Name cannot exceed 50 characters' }),
     username: z
         .string()
         .min(3, { message: 'Username must be at least 3 characters' })

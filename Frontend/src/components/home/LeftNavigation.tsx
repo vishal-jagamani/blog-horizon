@@ -15,14 +15,14 @@ const LeftNavigation: React.FC<LeftNavigationProps> = ({ closeSheet }) => {
 
     return (
         <>
-            <div className="flex w-full flex-col space-y-4 px-4">
+            <div className="flex w-full flex-col space-y-4">
                 {isMobile && <SearchInput />}
                 <div className="flex flex-col space-y-2">
                     {leftNavigationOptions?.map((item) => {
                         const Icon = item.icon;
                         return (
                             <Link key={item?.id} href={item.link} onClick={closeSheet}>
-                                <div className="flex w-full items-center space-x-2 py-2">
+                                <div className="hover:bg-background flex w-full items-center space-x-2 rounded-md p-2">
                                     {Icon && <Icon className="text-foreground h-5 w-5" strokeWidth={1.2} />}
                                     <p>{item.title}</p>
                                 </div>

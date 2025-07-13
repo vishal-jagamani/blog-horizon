@@ -22,7 +22,7 @@ const NavBar: React.FC = () => {
     const [open, setOpen] = useState<boolean>(false);
     const closeRef = useRef<HTMLButtonElement>(null);
     const { isMobile } = useScreenSize();
-    const { isLoggedIn } = useUserStore();
+    const { isLoggedIn, userDetails } = useUserStore();
 
     const closeSheet = () => {
         if (closeRef.current) {
@@ -74,12 +74,14 @@ const NavBar: React.FC = () => {
                         <p className="block text-lg font-bold sm:hidden">Blog Horizon</p>
                     </div>
                     <div className="flex space-x-4 sm:space-x-6">
-                        <Button
-                            variant="default"
-                            className="text-foreground text-md hover:bg-primary hover:text-foreground hover:border-background border-primary border-[1px] bg-transparent px-6 font-bold hover:cursor-pointer"
-                        >
-                            New Post
-                        </Button>
+                        <Link href="/new">
+                            <Button
+                                variant="default"
+                                className="text-foreground text-md hover:bg-primary hover:text-foreground hover:border-background border-primary border-[1px] bg-transparent px-6 font-bold hover:cursor-pointer"
+                            >
+                                New Post
+                            </Button>
+                        </Link>
                         {isLoggedIn && <Bell className="self-center text-2xl hover:cursor-pointer" size={26} />}
                         {isLoggedIn ? (
                             <Popover open={open} onOpenChange={setOpen}>
@@ -96,10 +98,14 @@ const NavBar: React.FC = () => {
                                 <PopoverContent className="mr-3.5 flex w-52 p-2 sm:mr-20">
                                     <div className="group flex w-full flex-col">
                                         <p className="rounded-sm px-4 py-2 hover:cursor-pointer hover:bg-gray-200 dark:hover:bg-[#272729]">
-                                            <Link href="/vishal_jagamani" onClick={() => setOpen(false)}>
-                                                Vishal Jagamani
+                                            <Link href={`/${userDetails?.username}`} onClick={() => setOpen(false)} className="block w-full">
+                                                <div className="flex w-full flex-col overflow-hidden">
+                                                    <span className="truncate text-sm font-semibold">{userDetails?.name}</span>
+                                                    <span className="truncate text-xs text-gray-500">@{userDetails?.username}</span>
+                                                </div>
                                             </Link>
                                         </p>
+
                                         <Separator className="my-2" />
                                         {profileMenuOptions?.map((option) => {
                                             return (

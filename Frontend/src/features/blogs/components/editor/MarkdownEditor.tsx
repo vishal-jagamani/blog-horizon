@@ -2,17 +2,16 @@
 
 import { Textarea } from '@/components/ui/textarea';
 import MarkdownPreview from '@uiw/react-markdown-preview';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import remarkBreaks from 'remark-breaks';
 import remarkGfm from 'remark-gfm';
-import { useEditorStore } from '../../blogs.store';
+import { useEditorStore, useNewBlogStore } from '../../blogs.store';
 import BlogTitleDescription from './BlogTitleDescription';
 
 const MarkdownEditor: React.FC = () => {
     const editorRef = useRef<HTMLTextAreaElement>(null);
-    const [markdown, setMarkdown] = useState('');
-
     const setApplyBold = useEditorStore((state) => state.setApplyBold);
+    const { content, setContent } = useNewBlogStore();
 
     useEffect(() => {
         if (editorRef.current) {
@@ -39,8 +38,8 @@ const MarkdownEditor: React.FC = () => {
                     <Textarea
                         ref={editorRef}
                         className="bg-background text-foreground placeholder:text-foreground h-full flex-grow resize-none rounded border-none p-4 font-mono text-3xl shadow-none focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
-                        value={markdown}
-                        onChange={(e) => setMarkdown(e.target.value)}
+                        value={content}
+                        onChange={(e) => setContent(e.target.value)}
                         placeholder="Write your markdown here..."
                     />
                 </div>
@@ -48,7 +47,7 @@ const MarkdownEditor: React.FC = () => {
                 {/* Right Pane - Preview */}
                 <div className="markdown-preview h-full overflow-auto rounded border p-4">
                     <MarkdownPreview
-                        source={markdown}
+                        source={content}
                         remarkPlugins={[remarkBreaks, remarkGfm]}
                         style={{ backgroundColor: 'transparent', color: 'inherit' }}
                         className="prose dark:prose-invert max-w-none list-inside list-disc pl-4"

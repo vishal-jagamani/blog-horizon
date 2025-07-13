@@ -20,11 +20,32 @@ export type UserStoreType = {
 };
 
 export interface User extends Auth0User {
-    isSignupComplete: boolean;
+    completedSignup: boolean;
+    username: string;
 }
 
 // API response types
 export interface getUserByIdResponse {
+    status: boolean;
+    message: string;
+    data: User;
+}
+
+export interface checkUsernameAvailabilityResponse {
+    status: boolean;
+    message: string;
+    data: boolean;
+}
+
+export interface userSignupData {
+    auth0UserId: string;
+    username: string;
+    bio?: string;
+    website?: string;
+    location?: string;
+}
+
+export interface userSignupResponse {
     status: boolean;
     message: string;
     data: User;
@@ -35,6 +56,10 @@ export interface SignUpInputProps extends React.InputHTMLAttributes<HTMLInputEle
     name: string;
     label: string;
     type: string;
-    error: string;
+    error?: string;
+    status?: 'success' | 'error' | null;
+    helperText?: string;
+    extrastyle?: string;
     icon?: LucideIcon;
+    loading?: boolean;
 }

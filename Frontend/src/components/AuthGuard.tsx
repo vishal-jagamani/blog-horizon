@@ -12,12 +12,11 @@ export const AuthGuard: React.FC = () => {
 
     useEffect(() => {
         if (!isUserInitialized) return;
-        if (user === null) return;
+        if (!user || Object.keys(user).length === 0) return;
         console.log('user', user);
-        if (!user.isSignupComplete && pathName !== '/signup') {
-            console.log('user is not signup complete');
-            console.log('userDetails', useUserStore.getState().userDetails);
-            // router.push('/signup');
+        if (!user.completedSignup && pathName !== '/signup') {
+            console.log(`user didn't signup`);
+            router.push('/signup');
         }
     }, [isUserInitialized, user, pathName, router]);
 

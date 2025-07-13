@@ -26,7 +26,7 @@ const BlogCard: React.FC<{ blog: Blog }> = ({ blog }) => {
                         <AvatarImage src="https://github.com/shadcn.png" />
                         <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
-                    <p>{blog.authorName || 'Vishal Jagamani'}</p>
+                    <p>{blog.name || 'Vishal Jagamani'}</p>
                 </div>
                 <Link className="flex flex-col space-y-2 hover:cursor-pointer" href={`/vishaljagamani/${blog.id}`}>
                     <p className="text-2xl">{blog.title}</p>

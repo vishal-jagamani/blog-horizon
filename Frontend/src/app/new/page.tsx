@@ -1,12 +1,51 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { useUserStore } from '@/features/auth/auth.store';
+import { useNewBlogStore } from '@/features/blogs/blogs.store';
+import { createBlogData } from '@/features/blogs/blogs.types';
+import { useBlogs, useCreateBlog } from '@/features/blogs/hooks/useBlogs';
 import Link from 'next/link';
-import React, { lazy, Suspense } from 'react';
+import { useRouter } from 'next/navigation';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
 
 const MarkdownEditor = lazy(() => import('@/features/blogs/components/editor/MarkdownEditor'));
 
 const Page: React.FC = () => {
+    const router = useRouter();
+    const { title, content } = useNewBlogStore();
+    const [saveButtonEnabled, setSaveButtonEnabled] = useState<boolean>(false);
+
+    const userDetails = useUserStore((state) => state.userDetails);
+    const { mutateAsync } = useCreateBlog();
+    const { refetch } = useBlogs();
+
+    useEffect(() => {
+        if (title && content) {
+            setSaveButtonEnabled(true);
+        } else {
+            setSaveButtonEnabled(false);
+        }
+    }, [title, content]);
+
+    const handleSave = async () => {
+        if (!title || !content || !userDetails?.sub || !saveButtonEnabled) {
+            return;
+        }
+        const data: createBlogData = {
+            title,
+            content,
+            auth0UserId: userDetails?.sub ?? '',
+            authorName: userDetails?.name ?? '',
+            authorUserName: userDetails?.nickname ?? '',
+        };
+        const apiResponse = await mutateAsync(data);
+        if (apiResponse.status) {
+            await refetch();
+            router.push('/');
+        }
+    };
+
     return (
         <>
             <Suspense fallback={<div>Loading editor...</div>}>
@@ -25,7 +64,11 @@ const Page: React.FC = () => {
                         <MarkdownEditor />
                     </div>
                     <div className="flex justify-end space-x-4">
-                        <Button variant="default" className="text-md bg-primary px-10 font-bold hover:cursor-pointer">
+                        <Button
+                            variant="ghost"
+                            className={`text-md bg-primary px-10 font-bold ${saveButtonEnabled ? 'opacity-100 hover:cursor-pointer' : 'opacity-80'}`}
+                            onClick={handleSave}
+                        >
                             Save
                         </Button>
                         <Button

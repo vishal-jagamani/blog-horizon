@@ -2,25 +2,64 @@
 
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { checkUsernameAvailability } from '@/features/auth/api/user.api';
+import { useUserStore } from '@/features/auth/auth.store';
 import SignUpInput from '@/features/auth/components/SignUpInput';
+import { useCheckUsernameAvailability, useUserById, useUserSignup } from '@/features/auth/hooks/useUser';
 import { SignupSchema, SignupType } from '@/features/auth/schemas/auth.schema';
+import useDebounce from '@/utils/hof/useDebounce';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Calendar, Globe, MapPin, User } from 'lucide-react';
-import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+import React, { useEffect } from 'react';
+import { useForm, useWatch } from 'react-hook-form';
 
 const Page: React.FC = () => {
+    const router = useRouter();
+    const userDetails = useUserStore((state) => state.userDetails);
+    const setIsLoggedIn = useUserStore((state) => state.setIsLoggedIn);
     const {
         register,
         handleSubmit,
         formState: { errors },
+        control,
     } = useForm({ resolver: zodResolver(SignupSchema), mode: 'onChange', defaultValues: { bio: '', website: '', location: '' } });
 
-    const handleSignup = (data: SignupType) => {
+    const { mutateAsync } = useUserSignup();
+
+    const usernameInput = useWatch({ control, name: 'username' });
+    const debouncedUsername = useDebounce(usernameInput, 500) || '';
+
+    const { data: isAvailable, isLoading: isChecking } = useCheckUsernameAvailability(debouncedUsername);
+    const { refetch } = useUserById(encodeURIComponent(userDetails?.sub ?? ''));
+
+    const handleSignup = async (data: SignupType) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const cleaned = Object.fromEntries(Object.entries(data).filter(([_, v]) => v !== undefined));
-        console.log('signup data', cleaned);
+        const signupData = {
+            ...cleaned,
+            dob: new Date(cleaned?.dob).toLocaleDateString('en-CA'),
+            username: cleaned?.username,
+            auth0UserId: userDetails?.sub ?? '',
+        };
+        const apiResponse = await mutateAsync(signupData);
+        if (apiResponse.status) {
+            await refetch();
+            router.push('/');
+        }
     };
+
+    useEffect(() => {
+        if (!setIsLoggedIn) {
+            router.push('/');
+        }
+    }, [setIsLoggedIn, router]);
+
+    useEffect(() => {
+        if (debouncedUsername && debouncedUsername.length >= 3) {
+            checkUsernameAvailability(debouncedUsername);
+        }
+    }, [debouncedUsername]);
 
     return (
         <>
@@ -29,12 +68,38 @@ const Page: React.FC = () => {
                     <h1 className="text-primary self-center text-2xl font-semibold tracking-wide">Complete your signup</h1>
                     <form onSubmit={handleSubmit(handleSignup)} className="mt-8 flex flex-col space-y-5">
                         <SignUpInput
+                            label="Name"
+                            placeholder="Enter your name..."
+                            type="text"
+                            error={errors?.name?.message || ''}
+                            {...register('name')}
+                        />
+                        <SignUpInput
                             icon={User}
                             label="Username"
                             placeholder="Enter unique username..."
                             type="text"
-                            error={errors?.username?.message || ''}
+                            error={
+                                errors?.username?.message ||
+                                (debouncedUsername.length >= 3 && !isChecking
+                                    ? isAvailable === false
+                                        ? 'Username not available'
+                                        : 'Username available'
+                                    : '')
+                            }
+                            helperText={debouncedUsername.length >= 3 && !isChecking && isAvailable === true ? 'Username available' : ''}
                             {...register('username')}
+                            status={
+                                errors?.username?.message
+                                    ? 'error'
+                                    : debouncedUsername.length >= 3 && !isChecking
+                                      ? isAvailable
+                                          ? 'success'
+                                          : 'error'
+                                      : null
+                            }
+                            extrastyle={debouncedUsername ? (isAvailable ? 'border-green-500' : 'border-red-500') : ''}
+                            loading={isChecking}
                         />
                         <SignUpInput
                             icon={Calendar}
